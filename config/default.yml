@@ -1,3 +1,10 @@
 Customer:
   dbConfig:
     host: localhost
+settings:
+  logging:
+    logLevel: 'debug'
+    isColourize: true
+    enableFileLog: true
+    fileLogPath: './app.output.log'
+    fileLogLevel: 'info'

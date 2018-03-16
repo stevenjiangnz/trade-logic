@@ -10,7 +10,6 @@ describe('Test Description', function () {
 
     it('Test Task Description 222', function () {
         const num: number = 5
-        console.log(num);
         expect(num).to.be.a('number')
     });
 })

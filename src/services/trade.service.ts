@@ -1,6 +1,6 @@
 import * as request from 'request-promise-native';
 
-class TradeService {
+export class TradeService {
     constructor() {
     }
 
@@ -22,4 +22,3 @@ class TradeService {
     }
 }
 
-export {TradeService};
