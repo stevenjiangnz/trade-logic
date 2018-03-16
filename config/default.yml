@@ -1,0 +1,3 @@
+Customer:
+  dbConfig:
+    host: localhost
