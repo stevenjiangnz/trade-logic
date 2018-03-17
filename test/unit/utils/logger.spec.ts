@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Logger } from '../../../src/utils/logger';
 
-describe.only('Logger Description', function () {
+describe('Logger Description', function () {
 
     it('Should retrun a log object', function () {
         const logger: any = new Logger();
