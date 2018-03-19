@@ -9,3 +9,4 @@ settings:
     username: stevenjiangnz
     password: L@ve@ver77
   serviceBaseUrl: 'http://localhost:8002/' 
+  mongoConnection: 'mongodb://localhost:27017/trade_logic_db'

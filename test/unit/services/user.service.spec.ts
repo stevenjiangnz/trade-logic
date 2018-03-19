@@ -12,7 +12,7 @@ describe('User Service Description', function () {
         const password = config.get('settings.serviceAccount.password');
         result = await ts.getToke(username, password);
         expect(result).to.not.null;
-        expect(result.length).to.gt(10);
+        expect(result.access_token.length).to.gt(10);
     });
 
 
@@ -21,8 +21,7 @@ describe('User Service Description', function () {
         let result;
 
         result = await ts.getTokenDefaultUser();
-        console.log(result);
         expect(result).to.not.null;
-        expect(result.length).to.gt(10);
+        expect(result.access_token.length).to.gt(10);
     });
 })

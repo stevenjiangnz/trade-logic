@@ -11,7 +11,6 @@ export class Logger {
     if (!Logger.logInstance) {
       const tsFormat = () => (new Date()).toLocaleTimeString();
       const logOptions = config.get('settings.logging');
-      console.log('log options: ', logOptions);
 
       const transports = [new (winston.transports.Console)({ colorize: logOptions.isColourize, timestamp: tsFormat })];
 

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { ShareService } from '../../../src/services/share.service';
 
-describe.only('Trade Service Description', function () {
+describe('Trade Service Description', function () {
     this.timeout(5000);
 
     it('Should return share list', async () => {
