@@ -13,6 +13,8 @@ export class ShareRepo extends BaseRepo {
 
     return new Promise(async (resolve, reject) => {
       await mongoose.connect(conn);
+
+      await mongoose.connection.db.dropCollection('asx50shares', null);
       const sh = new ShareDoc({
         _id: new mongoose.Types.ObjectId(),
         name: 'name value',

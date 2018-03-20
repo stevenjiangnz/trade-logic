@@ -3,9 +3,13 @@ import * as mongoose from 'mongoose';
 
 const shareSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  name: String,
-  biography: String
+  shareID: Number,
+  code: String,
+  company: String,
+  sector: String,
+  makertCap: String,
+  weight: Number,
 });
 
-const ShareDoc = mongoose.model('Share', shareSchema)
+const ShareDoc = mongoose.model('asx50share', shareSchema)
 export { ShareDoc };
