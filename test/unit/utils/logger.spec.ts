@@ -9,6 +9,7 @@ describe('Logger Description', function () {
 
         logger.debug('debug message from unit test');
         logger.info('info message from unit test');
+        logger.error('error message here');
     });
 
 })

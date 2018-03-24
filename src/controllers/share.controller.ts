@@ -1,6 +1,9 @@
 import * as config from 'config';
 import * as fs from 'fs';
-import {ShareService} from '../services/share.service';
+import * as _ from 'lodash';
+import { ShareService } from '../services/share.service';
+import { ShareRepo } from '../repos/share.repo';
+import { Logger } from '../utils/logger';
 
 export class ShareController {
   constructor() {
@@ -36,7 +39,22 @@ export class ShareController {
     const shareList = await shareService.getShareList();
     const asxList = await this.loadAsx50FromDisk(path);
 
-    console.log('share detail 111 ', shareList[0]);
-    return shareList;
+    asxList.forEach(asx50 => {
+      const result = _.find(shareList, (o) => {
+        return o.symbol ===  asx50.code + '.AX';
+      })
+
+      if (!result) {
+        console.log('missing share', asx50);
+      } else {
+        asx50.shareId = result.id;
+        asx50.symbol = asx50.code + '.AX';
+      }
+    });
+
+    const sr = new ShareRepo();
+
+    const savedAsxList = await sr.saveAsx50Share(asxList);
+    return savedAsxList;
   }
 }

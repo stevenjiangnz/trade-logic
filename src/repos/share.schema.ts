@@ -1,15 +1,17 @@
 import * as config from 'config';
 import * as mongoose from 'mongoose';
 
+export const COLLECTION_NAME = 'asx50share';
+
 const shareSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  shareID: Number,
-  code: String,
+  shareId: Number,
+  symbol: String,
   company: String,
   sector: String,
-  makertCap: String,
+  marketCap: String,
   weight: Number,
 });
 
-const ShareDoc = mongoose.model('asx50share', shareSchema)
+const ShareDoc = mongoose.model(COLLECTION_NAME, shareSchema, COLLECTION_NAME);
 export { ShareDoc };

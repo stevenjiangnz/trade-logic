@@ -15,7 +15,7 @@ describe('Share Repo Description',  function () {
       const sc = new ShareController();
       const shareList = await sc.loadAsx50ListFull(path);
 
-      expect(shareList.length).to.gt(100);
+      expect(shareList.length).to.gt(10);
   });
 
 })

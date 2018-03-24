@@ -28,17 +28,18 @@ export class Logger {
       if (logOptions.logLevel) {
         Logger.logInstance.level = logOptions.logLevel;
       }
-
-      // logger.level = 'debug';
     }
   }
 
   public debug(message: string, obj?: any) {
-    Logger.logInstance.debug(message);
+    Logger.logInstance.debug(message, obj);
   }
 
   public info(message: string, obj?: any) {
-    Logger.logInstance.info(message);
+    Logger.logInstance.info(message, obj);
   }
 
+  public error(message: string, obj?: any) {
+    Logger.logInstance.error(message, obj);
+  }
 }
