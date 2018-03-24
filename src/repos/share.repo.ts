@@ -17,12 +17,11 @@ export class ShareRepo extends BaseRepo {
       await mongoose.connection.db.dropCollection('asx50shares', null);
       const sh = new ShareDoc({
         _id: new mongoose.Types.ObjectId(),
-        name: 'name value',
-        biography: 'biography value ' + new Date().toLocaleTimeString()
+        code: 'name value',
+        company: 'biography value ' + new Date().toLocaleTimeString()
       });
 
       sh.save(async function (err) {
-        console.log('save done...', err);
         resolve(null);
         await mongoose.disconnect();
       });

@@ -11,6 +11,7 @@ export class ShareService extends BaseService {
     const options = {
         method: 'GET',
         uri: url.resolve(this.baseUrl, 'api/share'),
+        json: true,
       };
 
     await this.applyHeaders(options);
