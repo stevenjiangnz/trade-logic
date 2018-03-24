@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { ShareRepo } from '../../../src/repos/share.repo';
+import * as config from 'config';
 
 describe('Share Repo Description', function () {
     this.timeout(5000);
@@ -18,12 +19,24 @@ describe('Share Repo Description', function () {
     shareId: 140,
     symbol: 'ALL.AX' }];
 
-    it('Should save share',  (done) => {
-        const sr = new ShareRepo();
+    const conn = config.get('settings.mongoConnection');
 
-        sr.saveAsx50Share(asxList).then(() => {
-          done();
-        });
+    it('Should save asx 50 shares',  async () => {
+        const sr = new ShareRepo();
+        await sr.connect(conn);
+
+        const result = await sr.saveAsx50Shares(asxList);
+        console.log('result  ', result);
+        await sr.disconnect();
     });
+
+    it('Should get asx 50 shares',  async () => {
+      const sr = new ShareRepo();
+      await sr.connect(conn);
+
+      const result = await sr.getAsx50Shares();
+      console.log('result  ', result.length);
+      await sr.disconnect();
+  });
 
 })

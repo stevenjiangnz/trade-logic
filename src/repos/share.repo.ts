@@ -11,11 +11,8 @@ export class ShareRepo extends BaseRepo {
     mongoose.Promise = global.Promise;
   }
 
-  public saveAsx50Share(shareList): Promise<any> {
-    const conn = config.get('settings.mongoConnection');
-
+  public saveAsx50Shares(shareList): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      await mongoose.connect(conn);
       await mongoose.connection.db.listCollections().toArray(async function (err, names) {
         if (_.find(names, n => n.name === COLLECTION_NAME)) {
           await mongoose.connection.db.dropCollection(COLLECTION_NAME, null);
@@ -40,13 +37,16 @@ export class ShareRepo extends BaseRepo {
         if (error) {
           this.logger.error('Error insert docs', error);
           reject(error);
-          await mongoose.disconnect();
         } else {
           this.logger.info('Success insert docs');
           resolve(docs);
-          await mongoose.disconnect();
         }
       });
     });
+  }
+
+
+  public async getAsx50Shares(): Promise<any> {
+    return ShareDoc.find()
   }
 }

@@ -6,6 +6,7 @@ import { ShareRepo } from '../repos/share.repo';
 import { Logger } from '../utils/logger';
 
 export class ShareController {
+  conn = config.get('settings.mongoConnection');
   constructor() {
   }
 
@@ -54,7 +55,10 @@ export class ShareController {
 
     const sr = new ShareRepo();
 
-    const savedAsxList = await sr.saveAsx50Share(asxList);
+    await sr.connect(this.conn);
+    const savedAsxList = await sr.saveAsx50Shares(asxList);
+
+    await sr.disconnect();
     return savedAsxList;
   }
 }
