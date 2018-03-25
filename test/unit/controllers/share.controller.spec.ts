@@ -11,7 +11,7 @@ describe('Share Repo Description',  function () {
         expect(shareList.length).to.gt(0);
     });
 
-    it.only('Should load ASX list full', async () => {
+    it('Should load ASX list full', async () => {
       const sc = new ShareController();
       const shareList = await sc.loadAsx50ListFull(path);
 

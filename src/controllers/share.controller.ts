@@ -61,4 +61,8 @@ export class ShareController {
     await sr.disconnect();
     return savedAsxList;
   }
+
+  public async getIndicators(shareID): Promise<any> {
+
+  }
 }

@@ -1,7 +1,6 @@
 import { ShareDoc, COLLECTION_NAME } from './share.schema';
 import { BaseRepo } from './base.repo';
 import * as mongoose from 'mongoose';
-import * as config from 'config';
 import * as _ from 'lodash';
 import { Logger } from '../utils/logger';
 

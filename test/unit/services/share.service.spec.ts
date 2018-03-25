@@ -12,4 +12,13 @@ describe('Trade Service Description', function () {
         expect(shareList.length).to.gt(0);
     });
 
+    it('Should return ticker with indicators', async () => {
+        const ts = new ShareService();
+        const tickerList = await ts.getTickerWithIndicator(83, 20101010, 20110202);
+        expect(tickerList).to.not.null;
+        expect(Object.keys(tickerList).length).to.gt(0);
+        expect(tickerList.tickerList.length).to.gt(0);
+    });
+
+
 })
