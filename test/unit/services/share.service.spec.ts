@@ -17,6 +17,8 @@ describe('Trade Service Description', function () {
         const tickerList = await ts.getTickerWithIndicator(83, 20101010, 20110202);
         expect(tickerList).to.not.null;
         expect(Object.keys(tickerList).length).to.gt(0);
+
+        console.log(Object.keys(tickerList.indicators));
         expect(tickerList.tickerList.length).to.gt(0);
     });
 

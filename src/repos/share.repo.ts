@@ -7,7 +7,6 @@ import { Logger } from '../utils/logger';
 export class ShareRepo extends BaseRepo {
   constructor() {
     super();
-    mongoose.Promise = global.Promise;
   }
 
   public saveAsx50Shares(shareList): Promise<any> {

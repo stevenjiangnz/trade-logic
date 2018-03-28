@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { ShareController } from '../../../src/controllers/share.controller';
 
-describe('Share Repo Description',  function () {
+describe('Share Repo Description', function () {
     this.timeout(15000);
     const path = './fixture/asx50.csv';
 
@@ -12,10 +12,16 @@ describe('Share Repo Description',  function () {
     });
 
     it('Should load ASX list full', async () => {
-      const sc = new ShareController();
-      const shareList = await sc.loadAsx50ListFull(path);
+        const sc = new ShareController();
+        const shareList = await sc.loadAsx50ListFull(path);
 
-      expect(shareList.length).to.gt(10);
-  });
+        expect(shareList.length).to.gt(10);
+    });
+
+    it.only('Should get indicators for the given share', async () => {
+        const sc = new ShareController();
+        const shareList = await sc.getIndicators(83, 20100101, 20100606);
+        
+    });
 
 })

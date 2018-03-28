@@ -6,6 +6,7 @@ export class BaseRepo {
   public logger: any;
   constructor() {
     this.logger = new Logger();
+    mongoose.Promise = global.Promise;
   }
 
   public async connect(conn) {

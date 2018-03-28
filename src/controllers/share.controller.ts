@@ -3,11 +3,14 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 import { ShareService } from '../services/share.service';
 import { ShareRepo } from '../repos/share.repo';
+import { TickerDoc } from '../repos/ticker.schema';
 import { Logger } from '../utils/logger';
 
 export class ShareController {
   conn = config.get('settings.mongoConnection');
+  private sr: ShareRepo;
   constructor() {
+    this.sr = new ShareRepo();
   }
 
   public loadAsx50FromDisk(path: string): Promise<any> {
@@ -62,7 +65,80 @@ export class ShareController {
     return savedAsxList;
   }
 
-  public async getIndicators(shareID): Promise<any> {
+  public async saveIndicators(shareID): Promise<any> {
+    await this.sr.connect(this.conn);
 
+    const asxList = await this.sr.getAsx50Shares();
+
+    console.log('asxList   ', asxList);
+  }
+
+  public async getIndicators(shareID, startDate = null, endDate = null): Promise<any> {
+    const ss = new ShareService();
+
+    const indictorObj = await ss.getTickerWithIndicator(shareID, startDate, endDate);
+
+    // console.log('indictor obj returned: ', indictorObj);
+    this.getTickerDocs(indictorObj);
+
+  }
+
+  private async getTickerDocs(indicatorObj) {
+    const sr = new ShareRepo();
+    sr.connect(this.conn);
+    const tickerDocs = [];
+    let share = null;
+    let len = 0;
+
+    // console.log(indicatorObj.tickerList);
+    if (indicatorObj && indicatorObj.tickerList && indicatorObj.tickerList.length > 0) {
+      len = indicatorObj.tickerList.length;
+      const shares = await sr.getAsx50Shares();
+      share = _.find(shares, (s) => s.shareId === indicatorObj.tickerList[0].shareId);
+    }
+
+    console.log('tickerlist', Object.keys(indicatorObj.indicators));
+
+    for (let i = 0; i < len; i++) {
+      const tDoc = new TickerDoc({
+        shareId: share.shareId,
+        symbol: share.symbol,
+        tradingDate: indicatorObj.tickerList[i].tradingDate,
+        open: indicatorObj.tickerList[i].open,
+        close: indicatorObj.tickerList[i].close,
+        high: indicatorObj.tickerList[i].high,
+        low: indicatorObj.tickerList[i].low,
+        ema_10: indicatorObj.indicators['ema,10'][i],
+        ema_20: indicatorObj.indicators['ema,20'][i],
+        sma_5: indicatorObj.indicators['sma,5'][i],
+        sma_10: indicatorObj.indicators['sma,10'][i],
+        sma_30: indicatorObj.indicators['sma,30'][i],
+        sma_50: indicatorObj.indicators['sma,50'][i],
+        sma_200: indicatorObj.indicators['sma,200'][i],
+        bb_20_2_5_m: indicatorObj.indicators['bb,20,2.5_m'][i],
+        bb_20_2_5_h: indicatorObj.indicators['bb,20,2.5_h'][i],
+        bb_20_2_5_l: indicatorObj.indicators['bb,20,2.5_l'][i],
+        adx_di_plus: indicatorObj.indicators['adx_di+'][i],
+        adx_di_neg: indicatorObj.indicators['adx_di-'][i],
+        adx: indicatorObj.indicators['adx'][i],
+        macd_hist_26_12_9: indicatorObj.indicators['hist_macd,26,12,9'][i],
+        macd_signal_26_12_9: indicatorObj.indicators['signal_macd,26,12,9'][i],
+        macd_26_12_9: indicatorObj.indicators['macd,26,12,9'][i],
+        heikin_open: indicatorObj.indicators['open_heikin'][i],
+        heikin_close: indicatorObj.indicators['close_heikin'][i],
+        heikin_high: indicatorObj.indicators['high_heikin'][i],
+        heikin_low: indicatorObj.indicators['low_heikin'][i],
+        stoch_k: indicatorObj.indicators['stochastic,14,3_k'][i],
+        stoch_d: indicatorObj.indicators['stochastic,14,3_d'][i],
+        rsi_6: indicatorObj.indicators['rsi,6'][i],
+        william_14: indicatorObj.indicators['william,14'][i],
+      });
+
+      tickerDocs.push(tDoc);
+    }
+
+    console.log('tickerDocs:   ', tickerDocs);
+
+    sr.disconnect();
   }
 }
