@@ -1,5 +1,5 @@
 // import * as express from 'express'
-import * as mod from '../src/index'
+// import * as mod from '../src/index'
 
 
 // console.log(mod.default)

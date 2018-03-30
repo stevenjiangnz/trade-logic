@@ -1,11 +1,11 @@
 import * as config from 'config';
 import * as mongoose from 'mongoose';
 
-export const COLLECTION_NAME = 'asx50ticker';
+export const COLLECTION_NAME = 'asx50tickers';
 
 const tickerSchema = mongoose.Schema({
   shareId: Number,
-  symbol: String,
+  symbol: String ,
   tradingDate: Number,
   open: Number,
   close: Number,

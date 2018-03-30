@@ -1,5 +1,8 @@
-import * as config from 'config';
-import * as winston from 'winston';
+// import * as config from 'config';
+// import * as winston from 'winston';
+
+const config = require('config');
+const winston = require('winston');
 
 export class Logger {
   public static logInstance = null;

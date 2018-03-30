@@ -3,12 +3,13 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 import { ShareService } from '../services/share.service';
 import { ShareRepo } from '../repos/share.repo';
-import { TickerDoc } from '../repos/ticker.schema';
+import { TickerRepo } from '../repos/ticker.repo';
 import { Logger } from '../utils/logger';
 
 export class ShareController {
   conn = config.get('settings.mongoConnection');
   private sr: ShareRepo;
+  private shares;
   constructor() {
     this.sr = new ShareRepo();
   }
@@ -69,8 +70,6 @@ export class ShareController {
     await this.sr.connect(this.conn);
 
     const asxList = await this.sr.getAsx50Shares();
-
-    console.log('asxList   ', asxList);
   }
 
   public async getIndicators(shareID, startDate = null, endDate = null): Promise<any> {
@@ -78,29 +77,48 @@ export class ShareController {
 
     const indictorObj = await ss.getTickerWithIndicator(shareID, startDate, endDate);
 
-    // console.log('indictor obj returned: ', indictorObj);
-    this.getTickerDocs(indictorObj);
-
+    return this.getTickerListFromIndicator(indictorObj);
   }
 
-  private async getTickerDocs(indicatorObj) {
+  public async loadTickersIntoDb(): Promise<any> {
+    this.shares = await this.loadSharesFromDb();
+
+    const tr = new TickerRepo();
+    tr.connect(this.conn);
+
+    let count = 0;
+    this.shares.forEach(async (s) => {
+      console.log('about to process', s.symbol)
+      const tickerList = await this.getIndicators(s.shareId);
+      count += tickerList.length;
+      console.log('found itmes: ', tickerList.length, s.symbol, count);
+      tr.saveTickers(tickerList);
+    });
+
+    tr.disconnect();
+    return null;
+  }
+
+  public async loadSharesFromDb() {
     const sr = new ShareRepo();
     sr.connect(this.conn);
+    const shares = await sr.getAsx50Shares();
+    sr.disconnect();
+
+    return shares;
+  }
+  private getTickerListFromIndicator(indicatorObj) {
     const tickerDocs = [];
     let share = null;
     let len = 0;
 
-    // console.log(indicatorObj.tickerList);
     if (indicatorObj && indicatorObj.tickerList && indicatorObj.tickerList.length > 0) {
       len = indicatorObj.tickerList.length;
-      const shares = await sr.getAsx50Shares();
-      share = _.find(shares, (s) => s.shareId === indicatorObj.tickerList[0].shareId);
+      share = _.find(this.shares, (s) => s.shareId === indicatorObj.tickerList[0].shareId);
     }
 
-    console.log('tickerlist', Object.keys(indicatorObj.indicators));
-
     for (let i = 0; i < len; i++) {
-      const tDoc = new TickerDoc({
+      const tDoc = {
         shareId: share.shareId,
         symbol: share.symbol,
         tradingDate: indicatorObj.tickerList[i].tradingDate,
@@ -132,13 +150,11 @@ export class ShareController {
         stoch_d: indicatorObj.indicators['stochastic,14,3_d'][i],
         rsi_6: indicatorObj.indicators['rsi,6'][i],
         william_14: indicatorObj.indicators['william,14'][i],
-      });
+      };
 
       tickerDocs.push(tDoc);
     }
 
-    console.log('tickerDocs:   ', tickerDocs);
-
-    sr.disconnect();
+    return tickerDocs;
   }
 }

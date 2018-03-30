@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { ShareRepo } from '../../../src/repos/share.repo';
 import * as config from 'config';
 
-describe('Share Repo Description', function () {
+describe.skip('Share Repo Description', function () {
     this.timeout(5000);
     const asxList = [{ code: 'AGL',
     company: 'AGL Energy Limited',
@@ -35,7 +35,6 @@ describe('Share Repo Description', function () {
       await sr.connect(conn);
 
       const result = await sr.getAsx50Shares();
-      console.log('result  ', result.length);
       await sr.disconnect();
   });
 
