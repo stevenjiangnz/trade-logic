@@ -16,7 +16,9 @@
     "env:dev": "cross-env NODE_ENV=development",
     "env:prod": "cross-env NODE_ENV=production",
     "test": "yarn build && mocha -r ts-node/register test/**/*.ts",
-    "test:watch": "yarn test -- -w"
+    "test:watch": "yarn test -- -w",
+    "load": "tsc && node ./build/src/index data.loader",
+    "analysis": "tsc && node ./build/src/index trade.analysis"
   },
   "keywords": [
     "boilerplate",

@@ -7,9 +7,4 @@ describe('Test Description', function () {
         const num: number = 3
         expect(num).to.be.a('number')
     });
-
-    it('Test Task Description 222', function () {
-        const num: number = 5
-        expect(num).to.be.a('number')
-    });
 })

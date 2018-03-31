@@ -10,8 +10,10 @@ export class ShareController {
   conn = config.get('settings.mongoConnection');
   private sr: ShareRepo;
   private shares;
+  private logger;
   constructor() {
     this.sr = new ShareRepo();
+    this.logger = new Logger();
   }
 
   public loadAsx50FromDisk(path: string): Promise<any> {
@@ -50,7 +52,7 @@ export class ShareController {
       })
 
       if (!result) {
-        console.log('missing share', asx50);
+        this.logger.error('missing share', asx50);
       } else {
         asx50.shareId = result.id;
         asx50.symbol = asx50.code + '.AX';
@@ -88,7 +90,7 @@ export class ShareController {
 
     let count = 0;
     this.shares.forEach(async (s) => {
-      console.log('about to process', s.symbol)
+      this.logger.info('about to process', s.symbol)
       const tickerList = await this.getIndicators(s.shareId);
       count += tickerList.length;
       console.log('found itmes: ', tickerList.length, s.symbol, count);

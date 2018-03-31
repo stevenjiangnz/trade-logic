@@ -3,7 +3,7 @@ import { TickerRepo } from '../../../src/repos/ticker.repo';
 import { TickerDoc } from '../../../src/repos/ticker.schema';
 import * as config from 'config';
 
-describe.skip('Share Repo Description', function () {
+describe('Share Repo Description', function () {
   this.timeout(5000);
   const tickerDocs = [{
     shareId: 83,
@@ -79,7 +79,6 @@ describe.skip('Share Repo Description', function () {
     await tr.connect(conn);
 
     const result = await tr.saveTickers(tickerDocs);
-    console.log('result  ', result);
     await tr.disconnect();
   });
 
@@ -104,4 +103,11 @@ describe.skip('Share Repo Description', function () {
     await tr.removeTickers(ids);
     await tr.disconnect();
   });
+
+  it('Should return tickers by shareId and dates', async () => {
+    const tr = new TickerRepo();
+    const result = await tr.getTickersByShare(83);
+    await tr.disconnect();
+  });
+
 })

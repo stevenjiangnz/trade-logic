@@ -29,4 +29,9 @@ describe.skip('Share Repo Description', function () {
         const sc = new ShareController();
         await sc.loadTickersIntoDb();
     });
+
+    it.only('Should load asx share from the db', async () => {
+        const sc = new ShareController();
+        const result = await sc.loadSharesFromDb();
+    });
 })

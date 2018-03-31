@@ -45,6 +45,6 @@ export class ShareRepo extends BaseRepo {
 
 
   public async getAsx50Shares(): Promise<any> {
-    return ShareDoc.find()
+    return ShareDoc.find();
   }
 }

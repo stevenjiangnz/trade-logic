@@ -26,7 +26,6 @@ describe.skip('Share Repo Description', function () {
         await sr.connect(conn);
 
         const result = await sr.saveAsx50Shares(asxList);
-        console.log('result  ', result);
         await sr.disconnect();
     });
 

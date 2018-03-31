@@ -67,14 +67,41 @@ export class TickerRepo extends BaseRepo {
 
 
   public async getAsx50Tickers(): Promise<any> {
-    return TickerDoc.find()
+    return TickerDoc.find();
   }
 
   public async removeTickers(ids): Promise<any> {
     return new Promise(async (resolve, reject) => {
       TickerDoc.deleteMany({_id: { $in: ids}}, function(err) {
-        console.log(err);
+        this.logger.error(err);
         resolve(null);
+      });
+    });
+  }
+
+  public async getTickersByShare(shareId, startDate = null, endDate = null): Promise<any> {
+    const query = {};
+    query['shareId'] = shareId;
+
+    if (startDate || endDate) {
+      query['tradingDate'] = {};
+      if (startDate) {
+        query['tradingDate']['$gt'] = startDate;
+      }
+       if (endDate) {
+        query['tradingDate']['$lt'] = endDate;
+       }
+    }
+
+    return new Promise(async (resolve, reject) => {
+      TickerDoc.find(query, (err, result) => {
+        if (err) {
+          this.logger.info('get error');
+          reject(err);
+        } else {
+          this.logger.info('get result', result.length);
+          resolve(result);
+        }
       });
     });
   }

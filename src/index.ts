@@ -1,7 +1,10 @@
 import { main as dataLoader} from './edge/data.loader';
+import { main as tradeAnalysis} from './edge/trade.analysis';
+import { Logger } from './utils/logger';
 
-function main() {
+async function main() {
   let action = '';
+  const logger = new Logger();
 
   if (process.argv.length > 2) {
     action = process.argv[2];
@@ -9,9 +12,13 @@ function main() {
 
   switch (action) {
     case 'data.loader':
-      dataLoader();
+      await dataLoader();
+      break;
+    case 'trade.analysis':
+      tradeAnalysis();
       break;
     default:
+      logger.error(`input paremeter (${action}) is not supported.`);
       break;
   }
 }

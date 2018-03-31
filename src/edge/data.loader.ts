@@ -1,6 +1,10 @@
 import { Logger } from '../utils/logger';
+import {ShareController} from '../controllers/share.controller';
 
-export function main() {
+export async function main() {
   const logger = new Logger();
-  logger.info('in data loader 23432423432');
+  const sc = new ShareController();
+  const result = await sc.loadSharesFromDb();
+  console.log('result for share list: ', result);
+  logger.info('data loader is still to be wired up...');
 }
