@@ -40,6 +40,11 @@ export class Logger {
     Logger.logInstance.info(message, obj);
   }
 
+  public log(message: string, obj?: any) {
+    this.info(message, obj);
+  }
+
+
   public error(message: string, obj?: any) {
     Logger.logInstance.error(message, obj);
   }

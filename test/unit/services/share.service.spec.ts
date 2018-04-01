@@ -18,7 +18,6 @@ describe('Trade Service Description', function () {
         expect(tickerList).to.not.null;
         expect(Object.keys(tickerList).length).to.gt(0);
 
-        console.log(Object.keys(tickerList.indicators));
         expect(tickerList.tickerList.length).to.gt(0);
     });
 

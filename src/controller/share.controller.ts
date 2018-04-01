@@ -1,9 +1,9 @@
 import * as config from 'config';
 import * as fs from 'fs';
 import * as _ from 'lodash';
-import { ShareService } from '../services/share.service';
-import { ShareRepo } from '../repos/share.repo';
-import { TickerRepo } from '../repos/ticker.repo';
+import { ShareService } from '../service/share.service';
+import { ShareRepo } from '../repo/share.repo';
+import { TickerRepo } from '../repo/ticker.repo';
 import { Logger } from '../utils/logger';
 
 export class ShareController {

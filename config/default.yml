@@ -1,6 +1,6 @@
 settings:
   logging:
-    logLevel: 'debug'
+    logLevel: 'info'
     isColourize: true
     enableFileLog: true
     fileLogPath: './app.output.log'

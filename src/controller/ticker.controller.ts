@@ -1,7 +1,7 @@
 import * as config from 'config';
 import * as fs from 'fs';
 import * as _ from 'lodash';
-import { TickerRepo } from '../repos/ticker.repo';
+import { TickerRepo } from '../repo/ticker.repo';
 import { Logger } from '../utils/logger';
 
 export class TickerController {

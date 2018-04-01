@@ -11,14 +11,14 @@ export class BaseRepo {
 
   public async connect(conn) {
     if (mongoose.connection && mongoose.connection.readyState !== 1) {
-      this.logger.info('About to connect to mongo.')
+      this.logger.debug('About to connect to mongo.')
       await mongoose.connect(conn);
     }
   }
 
   public async disconnect() {
     if (mongoose.connection && mongoose.connection.readyState === 1) {
-      this.logger.info('About to disconnect from mongo.')
+      this.logger.debug('About to disconnect from mongo.')
       await mongoose.disconnect();
     }
   }

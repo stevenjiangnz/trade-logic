@@ -1,5 +1,5 @@
 import { Logger } from '../utils/logger';
-import {ShareController} from '../controllers/share.controller';
+import {ShareController} from '../controller/share.controller';
 
 export async function main() {
   const logger = new Logger();
