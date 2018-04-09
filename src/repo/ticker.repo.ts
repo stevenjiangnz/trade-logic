@@ -3,6 +3,7 @@ import { BaseRepo } from './base.repo';
 import * as mongoose from 'mongoose';
 import * as _ from 'lodash';
 import { Logger } from '../utils/logger';
+import { Ticker } from '../entity/model';
 
 export class TickerRepo extends BaseRepo {
   constructor() {
@@ -99,10 +100,53 @@ export class TickerRepo extends BaseRepo {
           this.logger.info('get error');
           reject(err);
         } else {
-          this.logger.info('get result', result.length);
-          resolve(result);
+          const tickers = [];
+
+          result.forEach(doc => {
+            tickers.push(this.getTickerFromDoc(doc));
+          });
+          this.logger.info('get result', tickers.length);
+          resolve(tickers);
         }
       });
     });
+  }
+
+  private getTickerFromDoc(doc): Ticker {
+    let ticker = new Ticker ();
+    ticker =  {
+      shareId: doc.shareId,
+      symbol: doc.symbol,
+      tradingDate: doc.tradingDate,
+      open: doc.open,
+      close: doc.close,
+      high: doc.high,
+      low: doc.low,
+      ema_10: doc.ema_10,
+      ema_20: doc.ema_20,
+      sma_5: doc.sma_5,
+      sma_10: doc.sma_10,
+      sma_30: doc.sma_30,
+      sma_50: doc.sma_50,
+      sma_200: doc.sma_200,
+      bb_20_2_5_m: doc.bb_20_2_5_m,
+      bb_20_2_5_h: doc.bb_20_2_5_h,
+      bb_20_2_5_l: doc.bb_20_2_5_l,
+      adx_di_plus: doc.adx_di_plus,
+      adx_di_neg: doc.adx_di_neg,
+      adx: doc.adx,
+      macd_hist_26_12_9: doc.macd_hist_26_12_9,
+      macd_signal_26_12_9: doc.macd_signal_26_12_9,
+      macd_26_12_9: doc.macd_26_12_9,
+      heikin_open: doc.heikin_open,
+      heikin_close: doc.heikin_close,
+      heikin_high: doc.heikin_high,
+      heikin_low: doc.heikin_low,
+      stoch_k: doc.stoch_k,
+      stoch_d: doc.stoch_d,
+      rsi_6: doc.rsi_6,
+      william_14: doc.william_14,
+    };
+    return ticker;
   }
 }

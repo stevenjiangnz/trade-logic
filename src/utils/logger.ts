@@ -1,6 +1,7 @@
 import * as config from 'config';
 import * as winston from 'winston';
-
+import * as cTable from 'console.table';
+import { FileHelper } from './file.helper';
 
 export class Logger {
   public static logInstance = null;
@@ -44,8 +45,21 @@ export class Logger {
     this.info(message, obj);
   }
 
-
   public error(message: string, obj?: any) {
     Logger.logInstance.error(message, obj);
+  }
+
+  public table(input, path = null, isAppend = false) {
+    const tableString = cTable.getTable(input);
+
+    console.log(tableString);
+
+    if (path) {
+      if (isAppend) {
+        FileHelper.appendToFile(path, tableString);
+      } else {
+        FileHelper.writeToFile(path, tableString);
+      }
+    }
   }
 }

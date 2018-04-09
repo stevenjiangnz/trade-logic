@@ -14,3 +14,4 @@ settings:
     indicatorsToLoad: 'ema,20|sma,5|sma,10|sma,50|sma,200|bb,20,2.5|adx|macd,26,12,9|heikin|stochastic,14,3|rsi,6|william,14|sma,30|ema,10'
     loadStartDate: 19900101
     loadEndDate: 21000101
+  TurningScanSettings: null
